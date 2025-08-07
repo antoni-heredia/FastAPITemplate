@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from .models import passenger
-from .db import client
+from .services.clickhouse import client
 from .routes import ping, passengers
 
 app = FastAPI()

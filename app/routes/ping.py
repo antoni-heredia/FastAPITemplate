@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from ..db import client
+from ..services.clickhouse import client
 
 router = APIRouter()
 
