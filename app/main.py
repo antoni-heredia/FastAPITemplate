@@ -15,7 +15,7 @@ client = Client(host=clickhouse_host)
 @app.on_event("startup")
 def startup() -> None:
     """Create the ClickHouse table on application startup."""
-    client.execute(models.USER_TABLE_SQL)
+    client.execute(models.PASSENGER_TABLE_SQL)
 
 @app.get("/")
 def read_root():
@@ -27,16 +27,16 @@ def ping():
     return {"clickhouse_version": version}
 
 
-@app.post("/users", status_code=201)
-def create_user(user: models.User):
+@app.post("/passengers", status_code=201)
+def create_passenger(passenger: models.Passenger):
     client.execute(
-        "INSERT INTO users (id, name, age, created_at) VALUES",
-        [(user.id, user.name, user.age, user.created_at)],
+        "INSERT INTO passengers (id, name, seat, created_at) VALUES",
+        [(passenger.id, passenger.name, passenger.seat, passenger.created_at)],
     )
-    return {"status": "user inserted"}
+    return {"status": "passenger inserted"}
 
 
-@app.get("/users", response_model=List[models.User])
-def list_users():
-    rows = client.execute("SELECT id, name, age, created_at FROM users ORDER BY id")
-    return [models.User(id=r[0], name=r[1], age=r[2], created_at=r[3]) for r in rows]
+@app.get("/passengers", response_model=List[models.Passenger])
+def list_passengers():
+    rows = client.execute("SELECT id, name, seat, created_at FROM passengers ORDER BY id")
+    return [models.Passenger(id=r[0], name=r[1], seat=r[2], created_at=r[3]) for r in rows]

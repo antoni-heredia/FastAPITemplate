@@ -2,19 +2,19 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 
-class User(BaseModel):
+class Passenger(BaseModel):
     id: int
     name: str
-    age: int
+    seat: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
-USER_TABLE_SQL = (
+PASSENGER_TABLE_SQL = (
     """
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE IF NOT EXISTS passengers (
         id Int32,
         name String,
-        age Int32,
+        seat String,
         created_at DateTime
     )
     ENGINE = MergeTree()
